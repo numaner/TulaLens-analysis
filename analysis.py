@@ -38,7 +38,7 @@ class Analyzer:
             for row in self.data:
                 #print("row: %s" % row)
                 if facet in row.keys():
-                    print("id %s has facet %s, answer: %s" % (row['result id'], facet, row[facet]))
+                    #print("id %s has facet %s, answer: %s" % (row['result id'], facet, row[facet]))
                     facet_count += 1
                     #go through the answer array and add each to total counts
                     for answer in row[facet]:
