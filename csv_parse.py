@@ -1,3 +1,4 @@
+import sys
 import csv
 import io
 from questions import CSV_QUESTIONS
@@ -7,7 +8,12 @@ class CsvParse:
         self.results = None
         self.answers = []
         
-        csv_file = io.open(file, 'r')
+        try:
+            csv_file = io.open(file, 'r')
+        except IOError, e:
+            print "Error: %s" % e.strerror
+            sys.exit(2)
+            
         self.results = csv.reader(csv_file, delimiter=',', quotechar='"')
 
     def parse(self):
