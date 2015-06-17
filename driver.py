@@ -41,7 +41,7 @@ def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
     
-    file = 'tulalens_survey.csv'
+    file = 'tulalens_survey_sample.csv'
     facet = 'result id'
     
     #standard python parsing for command line options
