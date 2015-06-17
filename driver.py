@@ -21,8 +21,8 @@ def usage():
     --file   ==  The name of the .csv file to be analyzed. The delimiter should
                  be a comma ',' and the quote character should be a double
                  quote '"'. If no file is provided the default name to use is
-                 "tulalens_survey.csv", which is the survey sample gathered on
-                 February 27, 2015, included with the files for this script.
+                 "tulalens_survey_sample.csv", which is the survey sample gathered
+                 on February 27, 2015, included with the files for this script.
                  
     --facet  ==  The question to be used for analysis. At current version, the
                  script will count the number of people that provided an answer
