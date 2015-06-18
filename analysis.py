@@ -1,9 +1,9 @@
 import re
-from questions import CSV_QUESTIONS
+from questions import FULL_QUESTIONS
 
 class Analyzer:
     def __init__(self, data):
-        self.facets = CSV_QUESTIONS.keys()
+        self.facets = FULL_QUESTIONS.keys()
         self.data = data
         
     def group_by(self, facet):

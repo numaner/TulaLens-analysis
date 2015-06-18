@@ -1,7 +1,7 @@
 import sys
 import csv
 import io
-from questions import CSV_QUESTIONS
+from questions import FULL_QUESTIONS
 
 class CsvParse:
     def __init__(self, file=''):
@@ -10,8 +10,8 @@ class CsvParse:
         
         try:
             csv_file = io.open(file, 'r')
-        except IOError, e:
-            print "Error: %s" % e.strerror
+        except IOError as e:
+            print("Error: %s" % e.strerror)
             sys.exit(2)
             
         self.results = csv.reader(csv_file, delimiter=',', quotechar='"')
@@ -30,10 +30,10 @@ class CsvParse:
         #print(header)
         for question in header:
             #print(question.lower())
-            if question.lower() in CSV_QUESTIONS:
+            if question.lower() in FULL_QUESTIONS:
                 question_index = header.index(question)
                 #print("'%s' is at index %s" % (question, question_index))
-                answer_range = len(CSV_QUESTIONS[question.lower()])
+                answer_range = len(FULL_QUESTIONS[question.lower()])
                 #print("answer should be at index")
                 if answer_range > 0:
                     for index in range(question_index, question_index + answer_range):

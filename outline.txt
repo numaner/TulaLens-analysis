@@ -1,0 +1,7 @@
+1 - Functionality to calculate means for quantitative data and means by category. 
+
+2 - Categorization by different variables including quantitative variables (ie how many women who lived in households making under 100 rupees a day went to the ANC under 4 times; How many women who went to X hospital said it was "very good"). 
+
+If there are other basic functions you think would be useful, please feel free to add those. 
+
+3 - Predictive modeling: It would be really helpful if we can look at questions like "Is it more likely that women will switch to a higher quality facility if....?

@@ -1,41 +1,14 @@
 import getopt
 import logging
 import sys
-from questions import CSV_QUESTIONS
+import re
+from help_me import usage, list
+from questions import FULL_QUESTIONS
 from csv_parse import CsvParse
 from analysis import Analyzer
 
 log = logging.getLogger(__name__)
 
-def usage():
-    print('''
-    Tulalens project analysis script version 0.1
-    by Nguyen Nguyen
-    
-    Command: python driver.py [options]
-    Sample: python drive.py --file Tulalens_2015_0226-0312.csv --facet q30
-    
-    Options:
-    -h       ==  Displays this help message.
-    
-    --file   ==  The name of the .csv file to be analyzed. The delimiter should
-                 be a comma ',' and the quote character should be a double
-                 quote '"'. If no file is provided the default name to use is
-                 "tulalens_survey_sample.csv", which is the survey sample gathered
-                 on February 27, 2015, included with the files for this script.
-                 
-    --facet  ==  The question to be used for analysis. At current version, the
-                 script will count the number of people that provided an answer
-                 for the given question, and provide how many times each answer
-                 was given. If the facet is 'result id', the script will simply
-                 show how many answers that person provided for the survey.
-                 The option can be just part of a question, but it should still
-                 be unique, so you can say "--facet q30" and the script will
-                 know it is "Q30. When did you last go to the health center?".
-                 If no facet is provided the default for the script to use will
-                 be 'result id'.
-    ''')
-    
 def main(argv=None):
     #read in params
     if argv is None:
@@ -49,10 +22,10 @@ def main(argv=None):
     args = []
 
     try:
-        opts, args = getopt.getopt(argv, "h", ["help", "file=", "facet="])
+        opts, args = getopt.getopt(argv, "hl", ["help", "list", "file=", "facet="])
     except getopt.GetoptError as msg:
         print(sys.stderr, msg)
-        print >>sys.stderr, "for help use --help"
+        print >>sys.stderr, "For help use --help"
         return 2
     
     if len(args):
@@ -63,6 +36,9 @@ def main(argv=None):
     for (opt, val) in opts:
         if opt in ("-h", "--help"):
             usage()
+            return 0
+        if opt in ("-l", "--list"):
+            list()
             return 0
         elif opt in ("--file"):
             file = val
@@ -77,10 +53,13 @@ def main(argv=None):
     #ideally this allows for quick entries with just the 
     #question number, e.g. "--facet Q30"
     facet_valid = False
-    for question in sorted(CSV_QUESTIONS.keys()):
+    for short, long in FULL_QUESTIONS.items():
         #print("checking question: %s" % question)
-        if facet in question:
-            facet = question
+        if facet in long:
+            #turn the facet into easy to use question ids
+            p = "(^q\d\d?[.]).*"
+            m = re.match(p, long)
+            facet = short
             facet_valid = True
             break
     
