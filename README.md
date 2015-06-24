@@ -6,7 +6,7 @@ To run this script, download and install Python 2.7.9 here: https://www.python.o
 Follow instructions to set up Python to run on your computer here: https://docs.python.org/2/using/windows.html
 
 Download all the files to a directory, then run the script via command line, for example:
->>python driver.py --file Tulalens_2015_0226-0312.csv --facet q30
+>>python driver.py --file Tulalens_2015_0226-0312.csv --facet q22
 
 The output will be displayed in the command line window. For now it will simply show how many people answered the given question, and the number of each answer for that question.
 
