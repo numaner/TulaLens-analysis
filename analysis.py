@@ -1,5 +1,5 @@
 import re
-from questions import FULL_QUESTIONS, QUANTITATIVE
+from questions import SHORT_QUESTIONS, QUANTITATIVE
 
 class Analyzer:
     def __init__(self, data):
@@ -51,7 +51,7 @@ class Analyzer:
     def find_mean(self, facet, answers_count):
         if facet:
             if facet in QUANTITATIVE:
-                print("Finding the mean for quantiable facet: %s" % facet)
+                print("Finding the mean for quantifiable facet: %s" % facet)
             else:
                 print("Not a quantitative facet: %s" % facet)
         else:
@@ -66,7 +66,10 @@ class Analyzer:
         for answer, count in answers_count.items():
             total_answers += count
             sum += int(answer) * int(count)
-        
+            
         mean = sum / total_answers
+        
+        print("Sum / Total answers = mean")
+        print("%s / %s = %s" % (sum, total_answers, mean))
         
         return mean

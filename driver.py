@@ -3,7 +3,7 @@ import logging
 import sys
 import re
 from help_me import usage, list
-from questions import FULL_QUESTIONS
+from questions import SHORT_QUESTIONS
 from csv_parse import CsvParse
 from analysis import Analyzer
 
@@ -54,7 +54,7 @@ def main(argv=None):
     #question number, e.g. "--facet Q30"
     long_q = '' #keep track of the long form for later use
     valid_facet = False
-    for long, short in FULL_QUESTIONS.items():
+    for long, short in SHORT_QUESTIONS.items():
         #print("checking question: %s" % question)
         if facet in long:
             #turn the facet into easy to use question ids
@@ -62,6 +62,7 @@ def main(argv=None):
             #m = re.match(p, long)
             facet = short
             long_q = long
+            print("Question selected: %s" % long_q)
             valid_facet = True
             break
     
@@ -79,7 +80,7 @@ def main(argv=None):
     #find the unique occurrence of each answer to the question
     answers_count = analyze.group_by(facet)
     
-    
+    mean = analyze.find_mean(facet, answers_count)
         
     sys.exit()
     
