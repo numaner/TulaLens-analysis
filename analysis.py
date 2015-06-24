@@ -1,13 +1,13 @@
 import re
-from questions import FULL_QUESTIONS
+from questions import FULL_QUESTIONS, QUANTITATIVE
 
 class Analyzer:
     def __init__(self, data):
-        self.facets = FULL_QUESTIONS.keys()
+        self.facets = SHORT_QUESTIONS.values()
         self.data = data
         
     def group_by(self, facet):
-        if facet is not None:
+        if facet:
             print("Grouping by facet: %s" % facet)
         else:
             print("No facet selected.")
@@ -26,14 +26,10 @@ class Analyzer:
         #for other facets, we dig through all answers and find the number
         #of times that question was answered and how many each answer
         #was given
-        else:
-            #find the full question based on facet given
-            for f in self.facets:
-                if facet in f:
-                    facet = f
-                    break
-                    
+        else:            
+            #holds the number of people that answered the question
             facet_count = 0
+            #holds the unique answers mapped to their occurence
             answers_count = {}
             for row in self.data:
                 #print("row: %s" % row)
@@ -49,3 +45,28 @@ class Analyzer:
             print("number of people answered this question: %s" % facet_count)
             for reply, count in answers_count.items():
                 print("%s: %s" % (reply, count))
+        
+        return answers_count
+        
+    def find_mean(self, facet, answers_count):
+        if facet:
+            if facet in QUANTITATIVE:
+                print("Finding the mean for quantiable facet: %s" % facet)
+            else:
+                print("Not a quantitative facet: %s" % facet)
+        else:
+            print("No facet selected.")
+            return
+        
+        #to find the sum of all the answers, we have to first multiply a unique
+        #answer by how many times it was given. along the way we keep a running
+        #total of number of answers
+        sum = 0
+        total_answers = 0
+        for answer, count in answers_count.items():
+            total_answers += count
+            sum += int(answer) * int(count)
+        
+        mean = sum / total_answers
+        
+        return mean

@@ -1,11 +1,14 @@
 import sys
 import csv
 import io
-from questions import FULL_QUESTIONS
+from questions import SHORT_QUESTIONS, MULTICHOICE
 
 class CsvParse:
     def __init__(self, file=''):
+        #the survey results as initially read from the csv
         self.results = None
+        #an array of the survey rows, each row is a dictionary
+        #of the questions and their answers for that person
         self.answers = []
         
         try:
@@ -30,17 +33,20 @@ class CsvParse:
         #print(header)
         for question in header:
             #print(question.lower())
-            if question.lower() in FULL_QUESTIONS:
+            if question.lower() in SHORT_QUESTIONS.keys():
+                short_q = SHORT_QUESTIONS[question.lower()]
                 question_index = header.index(question)
                 #print("'%s' is at index %s" % (question, question_index))
-                answer_range = len(FULL_QUESTIONS[question.lower()])
+                answer_range = 0
+                if short_q in MULTICHOICE:
+                    answer_range = len(MULTICHOICE[short_q])
                 #print("answer should be at index")
                 if answer_range > 0:
                     for index in range(question_index, question_index + answer_range):
-                        answer_ranges[index] = question.lower()
+                        answer_ranges[index] = short_q
                         #print(index)
                 else:
-                    answer_ranges[question_index] = question.lower()
+                    answer_ranges[question_index] = short_q
                     #print(question_index)
         #print(answer_ranges)
 
@@ -56,7 +62,7 @@ class CsvParse:
                 #print("skipping blank row")
                 continue
             #this dict keeps a 1:1 relationship of questions and answers and sidesteps
-            #the multi-choice. each mapping should be { question : [answer, answer] }
+            #the multi-choice. each mapping should be at least { question : [answer] }
             survey_row = {}
             #print("at id %s" % result[0])
             count += 1

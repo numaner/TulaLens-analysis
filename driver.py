@@ -52,18 +52,20 @@ def main(argv=None):
     #check if facet given is in the list of survey questions
     #ideally this allows for quick entries with just the 
     #question number, e.g. "--facet Q30"
-    facet_valid = False
-    for short, long in FULL_QUESTIONS.items():
+    long_q = '' #keep track of the long form for later use
+    valid_facet = False
+    for long, short in FULL_QUESTIONS.items():
         #print("checking question: %s" % question)
         if facet in long:
             #turn the facet into easy to use question ids
-            p = "(^q\d\d?[.]).*"
-            m = re.match(p, long)
+            #p = "(^q\d\d?[.]).*"
+            #m = re.match(p, long)
             facet = short
-            facet_valid = True
+            long_q = long
+            valid_facet = True
             break
     
-    if not facet_valid:
+    if not valid_facet:
         sys.exit("facet selected is not a survey question")
             
     #parse csv file
@@ -71,11 +73,13 @@ def main(argv=None):
     answers = parser.parse()
     
     #generate analysis based on options
-    
     #print("number of answer rows after parse: %s" % len(answers))
-    analyze = Analyzer(answers)
     
-    analyze.group_by(facet)
+    analyze = Analyzer(answers)
+    #find the unique occurrence of each answer to the question
+    answers_count = analyze.group_by(facet)
+    
+    
         
     sys.exit()
     
